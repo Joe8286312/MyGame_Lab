@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingObstacle : MonoBehaviour
+public class Rotator : MonoBehaviour
 {
     public float rotationRateX = 0f;
     public float rotationRateY = 100f;
@@ -11,7 +11,7 @@ public class RotatingObstacle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+public class Move : MonoBehaviour
 {
     public Vector3 endOffset = new Vector3(2, 0, 0);  // 相对当前位置的终点偏移
     public float speed = 2f;                           // 平台移动速度
@@ -33,41 +33,19 @@ public class MovingPlatform : MonoBehaviour
                 return;
         }
 
-        // 移动平台，顺带带动玩家
-        Vector3 oldPos = transform.position;
+        Vector3 lastPos = transform.position;
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        Vector3 movement = transform.position - oldPos;
 
-        // 如果有乘客，被动移动
+        // 向PlatformPassenger通知运动量
+        var passenger = GetComponent<Passenger>();
         if (passenger != null)
-        {
-            passenger.position += movement;
-        }
+            passenger.OnPlatformMoved(transform.position - lastPos);
 
-        // 判断是否到达目标
         if (Vector3.Distance(transform.position, target) < 0.01f)
         {
             isWaiting = true;
             waitTimer = waitTime;
             target = (target == endPos) ? startPos : endPos;
-        }
-    }
-
-    // “带动玩家”实现：玩家进入平台成为乘客
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            passenger = collision.transform;
-        }
-    }
-
-    // 玩家离开平台，不再带动
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.transform == passenger)
-        {
-            passenger = null;
         }
     }
 
