@@ -27,11 +27,17 @@ public class UIManager : MonoBehaviour
             textInfo.text = message;
     }
 
-    // 显示/隐藏胜利界面
-    public void ShowWin(bool active)
+    // 更新收集信息和主界面提示
+    public void SetWin(string message)
     {
         if (textWin != null)
-            textWin.gameObject.SetActive(active);
+            textWin.text = message;
+    }
+
+    // 显示胜利界面
+    public void ShowWin()
+    {
+        textWin.gameObject.SetActive(true);
     }
 
     // 显示短暂提示信息

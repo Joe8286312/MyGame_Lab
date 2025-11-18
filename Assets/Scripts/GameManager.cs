@@ -50,15 +50,10 @@ public class GameManager : MonoBehaviour
 
     public bool CheckCollectAll()
     {
-        if (collected == total)
-        {
-            return true;
-        }
-        else
-        {
-            GameManager.Instance.ShowGameHint("未收集完全部金币\n");
-            return false;
-        }
+        if (collected !=  total) 
+            GameManager.Instance.ShowGameHint($"缺少收集金币{total - collected}枚");
+        return collected == total;
+
     }
 
     public void AddDeath()
@@ -80,5 +75,35 @@ public class GameManager : MonoBehaviour
     {
         if (ui != null)
             ui.ShowHint(message, time);
+    }
+
+    public void ShowWin()
+    {
+        if (CheckCollectAll() && CheckDeathZero())
+        {
+            ui.SetWin("★ 成功通关" + '\n' +
+                      "★ 金币全收集" + '\n' +
+                      "★ 未死亡");
+        } 
+        else if (CheckCollectAll())
+        {
+            ui.SetWin("★ 成功通关" + '\n' +
+                      "★ 金币全收集" + '\n' +
+                      "☆ 未死亡");
+        }
+        else if (CheckDeathZero())
+        {
+            ui.SetWin("★ 成功通关" + '\n' +
+                      "☆ 金币全收集" + '\n' +
+                      "★ 未死亡");
+        }
+        else
+        {
+            ui.SetWin("★ 成功通关" + '\n' +
+                      "☆ 金币全收集" + '\n' +
+                      "☆ 未死亡");
+        }
+        ui.ShowWin();
+        Time.timeScale = 0; // 胜利后暂停游戏
     }
 }
