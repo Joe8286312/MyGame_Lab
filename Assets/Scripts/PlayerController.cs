@@ -72,11 +72,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Collection"))
-        {
-            other.gameObject.SetActive(false);
-
-        }
+        //if (other.gameObject.CompareTag("Collection"))
+        //{
+        //    other.gameObject.SetActive(false);
+        //}
     }
 
 

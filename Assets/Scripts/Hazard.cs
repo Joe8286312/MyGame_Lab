@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class Hazard : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // 当有物体进入触发区域时调用
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +16,9 @@ public class Hazard : MonoBehaviour
             {
                 player.Respawn();
             }
+            // 玩家死亡次数增加
+            GameManager.Instance.AddDeath();
+            GameManager.Instance.ShowGameHint("你已死亡");
         }
     }
 }

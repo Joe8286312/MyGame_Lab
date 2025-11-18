@@ -7,18 +7,6 @@ public class Passenger : MonoBehaviour
 
     private Transform passenger = null;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // “带动玩家”实现：玩家进入平台成为乘客
     private void OnCollisionEnter(Collision collision)
     {

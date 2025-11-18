@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class RespawnPlatform : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public float yOffset = 1f; // 重生点与平台的垂直距离（上方偏移）
 
     private void OnTriggerEnter(Collider other)
@@ -30,6 +18,7 @@ public class RespawnPlatform : MonoBehaviour
                 if (Vector3.Distance(player.GetSpawnPoint(), newSpawn) > 0.1f)
                 {
                     player.SetSpawnPoint(newSpawn);
+                    GameManager.Instance.ShowGameHint("重生点已设置");
                 }
             }
         }
