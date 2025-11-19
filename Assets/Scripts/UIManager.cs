@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI textInfo;
     public TextMeshProUGUI textHint;
     public TextMeshProUGUI textWin;
+    public TextMeshProUGUI textTime;
 
     private Coroutine hintCoroutine;
 
@@ -18,6 +19,25 @@ public class UIManager : MonoBehaviour
             textHint.gameObject.SetActive(false);
         if (textWin != null)
             textWin.gameObject.SetActive(false);
+        // 初始化时间显示
+        if (textTime != null)
+            textTime.text = "00:00.00"; 
+    }
+
+    // 更新时间显示
+    public void UpdateTime(float time)
+    {
+        if (textTime != null)
+            textTime.text = GameTimer.FormatTime(time);
+    }
+
+    // 在胜利信息中加入最终时间
+    public void AddWinTime(float time)
+    {
+        if (textWin != null && textWin.text.Length > 0)
+        {
+            textWin.text += "\nYour Time: " + GameTimer.FormatTime(time);
+        }
     }
 
     // 更新收集信息和主界面提示
@@ -27,7 +47,7 @@ public class UIManager : MonoBehaviour
             textInfo.text = message;
     }
 
-    // 更新收集信息和主界面提示
+    // 更新胜利信息
     public void SetWin(string message)
     {
         if (textWin != null)

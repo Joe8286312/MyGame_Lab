@@ -8,23 +8,15 @@ public class GameManager : MonoBehaviour
     public int collected = 0;
     public int total = 10;
     public int death = 0;
+
     public UIManager ui;
+    public GameTimer gameTimer; // 新增：对GameTimer组件的引用
 
-    public void ResetInfo()
-    {
-        death = 0;
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        ui.SetInfo($"Collected: {collected} / {total}\n" +
-                   $"Death: {death}");
-    }
+    
 
     private void Awake()
     {
-        UpdateUI();
+        UpdateUIInfo();
         if (Instance == null)
         {
             Instance = this;
@@ -34,6 +26,43 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        // 确保UI在游戏开始时被更新
+        UpdateUIInfo();
+        if (ui != null)
+        {
+            ui.UpdateTime(0); // 初始化UI计时器显示
+        }
+    }
+
+    void Update()
+    {
+        // 如果计时器正在运行，则持续更新UI上的时间显示
+        if (gameTimer != null && gameTimer.IsRunning())
+        {
+            ui.UpdateTime(gameTimer.GetElapsedTime());
+        }
+    }
+
+    public void ResetInfo()
+    {
+        death = 0;
+        UpdateUIInfo();
+
+        // 重置并开始计时
+        if (gameTimer != null)
+        {
+            gameTimer.ResetAndStart();
+        }
+    }
+
+    public void UpdateUIInfo()
+    {
+        ui.SetInfo($"Collected: {collected} / {total}\n" +
+                   $"Death: {death}");
     }
 
     public int GetCollectibleCount()
@@ -46,16 +75,8 @@ public class GameManager : MonoBehaviour
     {
         collected++;
         if (ui != null)
-            UpdateUI();
+            UpdateUIInfo();
         Debug.Log("已收集物数量：" + collected);
-
-        //// 通关判定
-        //if (collected >= total)
-        //{
-        //    if (ui != null)
-        //        ui.ShowWin(true);
-        //    //Time.timeScale = 0; // 胜利后暂停游戏
-        //}
     }
 
     public bool CheckCollectAll()
@@ -70,7 +91,7 @@ public class GameManager : MonoBehaviour
     {
         death++;
         if (ui != null)
-            UpdateUI();
+            UpdateUIInfo();
         Debug.Log("死亡次数：" + death);
     }
 
