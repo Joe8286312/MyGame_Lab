@@ -10,10 +10,21 @@ public class GameManager : MonoBehaviour
     public int death = 0;
     public UIManager ui;
 
-    private void Awake()
+    public void ResetInfo()
+    {
+        death = 0;
+        UpdateUI();
+    }
+
+    public void UpdateUI()
     {
         ui.SetInfo($"Collected: {collected} / {total}\n" +
                    $"Death: {death}");
+    }
+
+    private void Awake()
+    {
+        UpdateUI();
         if (Instance == null)
         {
             Instance = this;
@@ -35,8 +46,7 @@ public class GameManager : MonoBehaviour
     {
         collected++;
         if (ui != null)
-            ui.SetInfo($"Collected: {collected} / {total}\n" +
-                       $"Death: {death}");
+            UpdateUI();
         Debug.Log("已收集物数量：" + collected);
 
         //// 通关判定
@@ -60,8 +70,7 @@ public class GameManager : MonoBehaviour
     {
         death++;
         if (ui != null)
-            ui.SetInfo($"Collected: {collected} / {total}\n" +
-                       $"Death: {death}");
+            UpdateUI();
         Debug.Log("死亡次数：" + death);
     }
 
